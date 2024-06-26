@@ -10,11 +10,11 @@ use eth_types::{
     evm_types::{stack::Stack, Gas, Memory, OpcodeId},
     geth_types::GethData,
     state_db::Account,
-    word, Bytecode, GethExecError, GethExecStep, Hash, ToAddress, ToWord, Word,
+    word, Address, Bytecode, GethExecError, GethExecStep, Hash, ToAddress, ToWord, Word,
 };
 use mock::test_ctx::{helpers::*, LoggerConfig, TestContext};
 use pretty_assertions::assert_eq;
-use std::sync::LazyLock;
+use std::{collections::HashMap, sync::LazyLock};
 
 // Helper struct that contains a CircuitInputBuilder, a particular tx and a
 // particular execution step so that we can easily get a
@@ -46,7 +46,6 @@ impl CircuitInputBuilderTx {
                 prestate: block.geth_traces[0].prestate.clone(),
                 call_trace: block.geth_traces[0].call_trace.clone(),
             },
-            false,
         )
         .unwrap();
 
@@ -353,7 +352,7 @@ fn tracer_call_success() {
 
 #[test]
 fn tracer_err_address_collision() {
-    // We do CREATE2 twice with the same parameters, with a code_creater
+    // We do CREATE2 twice with the same parameters, with a code_creator
     // that outputs the same, which will lead to the same new
     // contract address.
     let code_creator = bytecode! {
@@ -481,7 +480,7 @@ fn tracer_err_address_collision() {
 
 #[test]
 fn tracer_create_collision_free() {
-    // We do CREATE twice with the same parameters, with a code_creater
+    // We do CREATE twice with the same parameters, with a code_creator
     // that outputs not the same, which will lead to the different new
     // contract address.
     let code_creator = bytecode! {

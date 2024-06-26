@@ -48,7 +48,7 @@ impl<F: Field> ExecutionGadget<F> for ErrorInvalidJumpGadget<F> {
         let phase2_condition = cb.query_cell_phase2();
 
         cb.require_in_set(
-            "ErrorInvalidJump only happend in JUMP or JUMPI",
+            "ErrorInvalidJump only happened in JUMP or JUMPI",
             opcode.expr(),
             vec![OpcodeId::JUMP.expr(), OpcodeId::JUMPI.expr()],
         );
@@ -111,7 +111,7 @@ impl<F: Field> ExecutionGadget<F> for ErrorInvalidJumpGadget<F> {
         &self,
         region: &mut CachedRegion<'_, '_, F>,
         offset: usize,
-        block: &Block<F>,
+        block: &Block,
         _: &Transaction,
         call: &Call,
         step: &ExecStep,

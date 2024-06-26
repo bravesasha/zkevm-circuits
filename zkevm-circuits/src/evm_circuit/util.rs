@@ -178,7 +178,7 @@ impl<'r, 'b, F: Field> CachedRegion<'r, 'b, F> {
         if offset - self.height_start < self.height_limit {
             let res = self.region.assign_advice(annotation, column, offset, &to);
             // Cache the value
-            // Note that the `value_field` in `AssignedCell` might be `Value::unkonwn` if
+            // Note that the `value_field` in `AssignedCell` might be `Value::unknown` if
             // the column has different phase than current one, so we call to `to`
             // again here to cache the value.
             if res.is_ok() {
@@ -732,7 +732,7 @@ pub(crate) struct StepRws<'a> {
 
 impl<'a> StepRws<'a> {
     /// Create a new StateRws by taking the reference to a block and the step.
-    pub(crate) fn new<F>(block: &'a Block<F>, step: &'a ExecStep) -> Self {
+    pub(crate) fn new(block: &'a Block, step: &'a ExecStep) -> Self {
         Self {
             rws: &block.rws,
             rw_indices: &step.rw_indices,
